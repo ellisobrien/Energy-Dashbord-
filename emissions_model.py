@@ -12,8 +12,6 @@ import requests
 import time
 import random
 import numpy as np
-import folium
-import mapclassify
 from pandas import DataFrame
 import plotly.express as px
 import plotly
