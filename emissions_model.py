@@ -21,14 +21,11 @@ import altair as alt
 import plotly.offline as po
 import plotly.graph_objs as pg
 
-
+x
 # Data Management/Investigation
 from pandas.api.types import CategoricalDtype # Ordering categories
 import numpy as np
 
-# Plotting libraries
-from plotnine import *
-import matplotlib.pyplot as plt
 
 # Downloading CO2 data from the csv file on GitHub
 url_co2_cb = "https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-codebook.csv" # Make sure the url is the raw version of the file on GitHub
