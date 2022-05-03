@@ -21,10 +21,7 @@ import altair as alt
 import plotly.offline as po
 import plotly.graph_objs as pg
 
-x
 # Data Management/Investigation
-from pandas.api.types import CategoricalDtype # Ordering categories
-import numpy as np
 
 
 # Downloading CO2 data from the csv file on GitHub
