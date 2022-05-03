@@ -1,9 +1,9 @@
 
 #importing packages :)
+import streamlit as st
 import pandas as pd
 import numpy as np
 import geopandas as gp
-import streamlit as st
 import io
 
 import pandas as pd
