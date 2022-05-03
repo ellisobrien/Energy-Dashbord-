@@ -4,6 +4,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import io
+import geopandas as gp
+
 
 import pandas as pd
 import requests
@@ -11,7 +13,6 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import random
-import numpy as np
 from pandas import DataFrame
 import plotly.express as px
 import plotly
@@ -21,11 +22,9 @@ import plotly.offline as po
 import plotly.graph_objs as pg
 
 
-
 # Data Management/Investigation
 from pandas.api.types import CategoricalDtype # Ordering categories
 import numpy as np
-import missingno as miss
 
 # Plotting libraries
 from plotnine import *
