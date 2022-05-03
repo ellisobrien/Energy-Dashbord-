@@ -2,10 +2,7 @@
 #importing packages :)
 import pandas as pd
 import numpy as np
-import matplotlib
 import geopandas as gp
-import seaborn
-import missingno as miss
 import streamlit as st
 import io
 
@@ -15,10 +12,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import random
-import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
-from plotnine import *
 import geopandas as gp
 import folium
 import mapclassify
@@ -121,7 +115,7 @@ if st.checkbox("Explore World Map of Emissions"):
     options=("co2", "co2_per_capita", 'coal_co2', 'coal_co2_per_capita', 'gas_co2',
              'gas_co2_per_capita', 'oil_co2', 'oil_co2_per_capita', 'co2_per_gdp',
              'methane','methane_per_capita','nitrous_oxide','nitrous_oxide_per_capita', 'trade_co2',
-             'population', 'gdp', 'co2_growth_prct', 'co2_growth_abs', "primary_energy_consumption",	"per_capita_electricity",	"energy_per_capita",	"energy_per_gdp",	"biofuel_electricity",	"coal_electricity",	"fossil_electricity", "renewables_electricity",	"gas_electricity",	"hydro_electricity",	"nuclear_electricity",	"oil_electricity",	"solar_electricity",	"wind_electricity", "other_renewable_electricity",	"other_renewable_exc_biofuel_electricity",	"electricity_demand",	"electricity_generation",	"renewables_energy_per_capita",	"renewables_elec_per_capita",	"renewables_share_elec",	"renewables_cons_change_pct",	"renewables_share_energy",	"renewables_cons_change_twh",	"renewables_consumption",	"energy_cons_change_pct",	"energy_cons_change_twh",	"coal_share_elec",	"coal_cons_change_pct",	"coal_share_energy",	"coal_cons_change_twh",	"coal_consumption",	"coal_elec_per_capita",	"coal_cons_per_capita",	"coal_production",	"coal_prod_per_capita",	"biofuel_share_elec",	"biofuel_cons_change_pct",	"biofuel_share_energy",	"biofuel_cons_change_twh",	"biofuel_consumption",	"biofuel_elec_per_capita",	"biofuel_cons_per_capita",	"carbon_intensity_elec",	"fossil_cons_change_pct",	"fossil_share_energy",	"fossil_cons_change_twh",	"fossil_fuel_consumption",	"fossil_energy_per_capita",	"fossil_cons_per_capita",	"fossil_share_elec",	"gas_share_elec",	"gas_cons_change_pct",	"gas_share_energy",	"gas_cons_change_twh",	"gas_consumption",	"gas_elec_per_capita",	"gas_energy_per_capita",	"gas_production",	"gas_prod_per_capita",	"hydro_share_elec",	"hydro_cons_change_pct",	"hydro_share_energy",	"hydro_cons_change_twh",	"hydro_consumption",	"hydro_elec_per_capita",	"hydro_energy_per_capita",	"low_carbon_share_elec",	"low_carbon_electricity",	"low_carbon_elec_per_capita",	"low_carbon_cons_change_pct",	"low_carbon_share_energy",	"low_carbon_cons_change_twh",	"low_carbon_consumption",	"low_carbon_energy_per_capita",	"net_elec_imports",	"net_elec_imports_share_demand",	"nuclear_share_elec",	"nuclear_cons_change_pct",	"nuclear_share_energy",	"nuclear_cons_change_twh",	"nuclear_consumption",	"nuclear_elec_per_capita",	"nuclear_energy_per_capita",	"oil_share_elec",	"oil_cons_change_pct",	"oil_share_energy",	"oil_cons_change_twh",	"oil_consumption",	"oil_elec_per_capita",	"oil_energy_per_capita",	"oil_production",	"oil_prod_per_capita",	"other_renewables_elec_per_capita",	"other_renewables_elec_per_capita_exc_biofuel",	"other_renewables_share_elec",	"other_renewables_share_elec_exc_biofuel",	"other_renewables_cons_change_pct",	"other_renewables_share_energy",	"other_renewables_cons_change_twh",	"other_renewable_consumption",	"other_renewables_energy_per_capita",	"solar_share_elec",	"solar_cons_change_pct",	"solar_share_energy",	"solar_cons_change_twh",	"solar_consumption",	"solar_elec_per_capita",	"solar_energy_per_capita",	"gdp",	"wind_share_elec",	"wind_cons_change_pct",	"wind_share_energy",	"wind_cons_change_twh",	"wind_consumption",	"wind_elec_per_capita",	"wind_energy_per_capita",	"coal_prod_change_pct",	"coal_prod_change_twh",	"gas_prod_change_pct",	"gas_prod_change_twh",	"oil_prod_change_pct",	"oil_prod_change_twh"))
+             'population', 'gdp', 'co2_growth_prct', 'co2_growth_abs', "primary_energy_consumption",	"per_capita_electricity",	"energy_per_capita",	"energy_per_gdp",	"biofuel_electricity",	"coal_electricity",	"fossil_electricity", "renewables_electricity",	"gas_electricity",	"hydro_electricity",	"nuclear_electricity",	"oil_electricity",	"solar_electricity",	"wind_electricity", "other_renewable_electricity",	"other_renewable_exc_biofuel_electricity",	"electricity_demand",	"electricity_generation",	"renewables_energy_per_capita",	"renewables_elec_per_capita",	"renewables_share_elec",	"renewables_cons_change_pct",	"renewables_share_energy",	"renewables_cons_change_twh",	"renewables_consumption",	"energy_cons_change_pct",	"energy_cons_change_twh",	"coal_share_elec",	"coal_cons_change_pct",	"coal_share_energy",	"coal_cons_change_twh",	"coal_consumption",	"coal_elec_per_capita",	"coal_cons_per_capita",	"coal_production",	"coal_prod_per_capita",	"biofuel_share_elec",	"biofuel_cons_change_pct",	"biofuel_share_energy",	"biofuel_cons_change_twh",	"biofuel_consumption",	"biofuel_elec_per_capita",	"biofuel_cons_per_capita",	"carbon_intensity_elec",	"fossil_cons_change_pct",	"fossil_share_energy",	"fossil_cons_change_twh",	"fossil_fuel_consumption",	"fossil_energy_per_capita",	"fossil_cons_per_capita",	"fossil_share_elec",	"gas_share_elec",	"gas_cons_change_pct",	"gas_share_energy", "gas_cons_change_twh",	"gas_consumption",	"gas_elec_per_capita",	"gas_energy_per_capita",	"gas_production",	"gas_prod_per_capita",	"hydro_share_elec",	"hydro_cons_change_pct",	"hydro_share_energy",	"hydro_cons_change_twh",	"hydro_consumption",	"hydro_elec_per_capita",	"hydro_energy_per_capita",	"low_carbon_share_elec",	"low_carbon_electricity",	"low_carbon_elec_per_capita",	"low_carbon_cons_change_pct",	"low_carbon_share_energy",	"low_carbon_cons_change_twh",	"low_carbon_consumption",	"low_carbon_energy_per_capita",	"net_elec_imports",	"net_elec_imports_share_demand",	"nuclear_share_elec",	"nuclear_cons_change_pct",	"nuclear_share_energy",	"nuclear_cons_change_twh",	"nuclear_consumption",	"nuclear_elec_per_capita",	"nuclear_energy_per_capita",	"oil_share_elec",	"oil_cons_change_pct",	"oil_share_energy",	"oil_cons_change_twh",	"oil_consumption",	"oil_elec_per_capita",	"oil_energy_per_capita",	"oil_production",	"oil_prod_per_capita",	"other_renewables_elec_per_capita",	"other_renewables_elec_per_capita_exc_biofuel",	"other_renewables_share_elec",	"other_renewables_share_elec_exc_biofuel",	"other_renewables_cons_change_pct",	"other_renewables_share_energy",	"other_renewables_cons_change_twh",	"other_renewable_consumption",	"other_renewables_energy_per_capita",	"solar_share_elec",	"solar_cons_change_pct",	"solar_share_energy",	"solar_cons_change_twh",	"solar_consumption",	"solar_elec_per_capita",	"solar_energy_per_capita",	"gdp",	"wind_share_elec",	"wind_cons_change_pct",	"wind_share_energy",	"wind_cons_change_twh",	"wind_consumption",	"wind_elec_per_capita",	"wind_energy_per_capita",	"coal_prod_change_pct",	"coal_prod_change_twh",	"gas_prod_change_pct",	"gas_prod_change_twh",	"oil_prod_change_pct",	"oil_prod_change_twh"))
 
     def country_map(input_var):
         data = dict(type='choropleth',
@@ -138,6 +132,7 @@ if st.checkbox("Explore World Map of Emissions"):
                       layout = layout)
         st.plotly_chart(fig11)
     country_map(answer00)
+
 
 
 
