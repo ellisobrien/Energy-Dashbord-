@@ -12,7 +12,6 @@ import requests
 import time
 import random
 import numpy as np
-import geopandas as gp
 import folium
 import mapclassify
 from pandas import DataFrame
