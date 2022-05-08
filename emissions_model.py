@@ -3,7 +3,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-#import io
+import io
 import geopandas as gp
 
 
@@ -49,12 +49,15 @@ download = requests.get(url_eng).content
 # Reading the downloaded content and turning it into a pandas dataframe
 df_eng = pd.read_csv(io.StringIO(download.decode('utf-8')))
 
+
 ###################################################################
+#reading in carbon and temp data
 carb_dat=pd.read_csv("/Users/ellisobrien/Desktop/Georgetown Semester 2/Data Science /Final Project/carbdat.csv")
 temp_dat=pd.read_csv("/Users/ellisobrien/Desktop/Georgetown Semester 2/Data Science /Final Project/Tempdat.csv")
 carb_dat.rename(columns={'Row Labels': 'Year'}, inplace=True)
 
 #####################################################################
+#import cleaing underlying map data
 world_filepath = gp.datasets.get_path('naturalearth_lowres')
 world = gp.read_file(world_filepath)
 world=world.rename(columns={'iso_a3': 'iso_code'})
@@ -65,18 +68,21 @@ df_co2_map = df_co2_map.merge(df_eng_map, how='left', on="iso_code")
 df_co2_map=(df_co2_map[df_co2_map["co2"]<11000])
 
 
+# Making header of data
 st.header("Ellis's Energy & Emissions Extravaganza :)")
 st.markdown("**Ellis Obrien DS2 Final: Building a dashboard for the climate discussion**")
 st.markdown('_"It is unequivocal that human influence has warmed the atmosphere, ocean and land. Widespread and rapid changes in the atmosphere, ocean, cryosphere and biosphere have occurred."_-IPCC Report 2021')
 
-
+#inserting video
 st.video("https://media2.ldscdn.org/assets/news-and-public-affairs/newsroom-2021/2021-01-0131-flooding-in-laie-hawaii-b-roll-1080p-eng.mp4")
 st.caption("By 2050, 800 million people could live in unhabitable cities due to frequent flooding from sea level rise. (C40)")
 
-
+#intersting temperature stat
 st.metric(label="Earth's Average Temperature", value="13.88°C", delta="1.0°C")
 st.caption("The earths current average temperature is 13.88°C (57°F). This is up 1°C (1.8°F) from pre-industrial levels.")
 
+
+#### inserting background information
 """
 ##### About
 """
@@ -96,9 +102,12 @@ fig0 = px.bar(temp_dat, x='Year', y='Temp Change',  title='Difference from 1900-
 fig0.update_layout(title_text='Change in Average Global Temp from 1900-2000 Average (°C)', title_x=0.5, title_y=0.9)
 st.plotly_chart(fig0)
 st.caption("Scientists warn of a significant lag between atmospheric carbon and measured increases in temperature. This means that even if stabilized atmospheric carbon today we still see temperature increases for up to a decade. Currently, we have seen about 1°C temperature increase.(Source: NOAA)")
+
+#map information
 """
 ##### World Map of Emmissions or Energy
 """
+#checkbox of potential variables
 if st.checkbox("Explore World Map of Emissions"):
     answer00 = st.selectbox(label="What variable would you like to view?",
     options=("co2", "co2_per_capita", 'coal_co2', 'coal_co2_per_capita', 'gas_co2',
@@ -106,6 +115,7 @@ if st.checkbox("Explore World Map of Emissions"):
              'methane','methane_per_capita','nitrous_oxide','nitrous_oxide_per_capita', 'trade_co2',
              'population', 'gdp', 'co2_growth_prct', 'co2_growth_abs', "primary_energy_consumption",	"per_capita_electricity",	"energy_per_capita",	"energy_per_gdp",	"biofuel_electricity",	"coal_electricity",	"fossil_electricity", "renewables_electricity",	"gas_electricity",	"hydro_electricity",	"nuclear_electricity",	"oil_electricity",	"solar_electricity",	"wind_electricity", "other_renewable_electricity",	"other_renewable_exc_biofuel_electricity",	"electricity_demand",	"electricity_generation",	"renewables_energy_per_capita",	"renewables_elec_per_capita",	"renewables_share_elec",	"renewables_cons_change_pct",	"renewables_share_energy",	"renewables_cons_change_twh",	"renewables_consumption",	"energy_cons_change_pct",	"energy_cons_change_twh",	"coal_share_elec",	"coal_cons_change_pct",	"coal_share_energy",	"coal_cons_change_twh",	"coal_consumption",	"coal_elec_per_capita",	"coal_cons_per_capita",	"coal_production",	"coal_prod_per_capita",	"biofuel_share_elec",	"biofuel_cons_change_pct",	"biofuel_share_energy",	"biofuel_cons_change_twh",	"biofuel_consumption",	"biofuel_elec_per_capita",	"biofuel_cons_per_capita",	"carbon_intensity_elec",	"fossil_cons_change_pct",	"fossil_share_energy",	"fossil_cons_change_twh",	"fossil_fuel_consumption",	"fossil_energy_per_capita",	"fossil_cons_per_capita",	"fossil_share_elec",	"gas_share_elec",	"gas_cons_change_pct",	"gas_share_energy", "gas_cons_change_twh",	"gas_consumption",	"gas_elec_per_capita",	"gas_energy_per_capita",	"gas_production",	"gas_prod_per_capita",	"hydro_share_elec",	"hydro_cons_change_pct",	"hydro_share_energy",	"hydro_cons_change_twh",	"hydro_consumption",	"hydro_elec_per_capita",	"hydro_energy_per_capita",	"low_carbon_share_elec",	"low_carbon_electricity",	"low_carbon_elec_per_capita",	"low_carbon_cons_change_pct",	"low_carbon_share_energy",	"low_carbon_cons_change_twh",	"low_carbon_consumption",	"low_carbon_energy_per_capita",	"net_elec_imports",	"net_elec_imports_share_demand",	"nuclear_share_elec",	"nuclear_cons_change_pct",	"nuclear_share_energy",	"nuclear_cons_change_twh",	"nuclear_consumption",	"nuclear_elec_per_capita",	"nuclear_energy_per_capita",	"oil_share_elec",	"oil_cons_change_pct",	"oil_share_energy",	"oil_cons_change_twh",	"oil_consumption",	"oil_elec_per_capita",	"oil_energy_per_capita",	"oil_production",	"oil_prod_per_capita",	"other_renewables_elec_per_capita",	"other_renewables_elec_per_capita_exc_biofuel",	"other_renewables_share_elec",	"other_renewables_share_elec_exc_biofuel",	"other_renewables_cons_change_pct",	"other_renewables_share_energy",	"other_renewables_cons_change_twh",	"other_renewable_consumption",	"other_renewables_energy_per_capita",	"solar_share_elec",	"solar_cons_change_pct",	"solar_share_energy",	"solar_cons_change_twh",	"solar_consumption",	"solar_elec_per_capita",	"solar_energy_per_capita",	"gdp",	"wind_share_elec",	"wind_cons_change_pct",	"wind_share_energy",	"wind_cons_change_twh",	"wind_consumption",	"wind_elec_per_capita",	"wind_energy_per_capita",	"coal_prod_change_pct",	"coal_prod_change_twh",	"gas_prod_change_pct",	"gas_prod_change_twh",	"oil_prod_change_pct",	"oil_prod_change_twh"))
 
+#map function
     def country_map(input_var):
         data = dict(type='choropleth',
                     locations = df_co2_map['iso_code'],
@@ -124,7 +134,7 @@ if st.checkbox("Explore World Map of Emissions"):
 
 
 
-
+#bubble map of emissions text options
 if st.checkbox("Explore World Bubble Map of Emissions"):
     answer0 = st.selectbox(label="What variable would you like to view?",
     options=("co2", "co2_per_capita", 'coal_co2', 'coal_co2_per_capita', 'gas_co2',
@@ -132,6 +142,7 @@ if st.checkbox("Explore World Bubble Map of Emissions"):
              'methane','methane_per_capita','nitrous_oxide','nitrous_oxide_per_capita', 'trade_co2',
              'population', 'gdp', 'co2_growth_prct', 'co2_growth_abs', "primary_energy_consumption",	"per_capita_electricity",	"energy_per_capita",	"energy_per_gdp",	"biofuel_electricity",	"coal_electricity",	"fossil_electricity", "renewables_electricity",	"gas_electricity",	"hydro_electricity",	"nuclear_electricity",	"oil_electricity",	"solar_electricity",	"wind_electricity", "other_renewable_electricity",	"other_renewable_exc_biofuel_electricity",	"electricity_demand",	"electricity_generation",	"renewables_energy_per_capita",	"renewables_elec_per_capita",	"renewables_share_elec",	"renewables_cons_change_pct",	"renewables_share_energy",	"renewables_cons_change_twh",	"renewables_consumption",	"energy_cons_change_pct",	"energy_cons_change_twh",	"coal_share_elec",	"coal_cons_change_pct",	"coal_share_energy",	"coal_cons_change_twh",	"coal_consumption",	"coal_elec_per_capita",	"coal_cons_per_capita",	"coal_production",	"coal_prod_per_capita",	"biofuel_share_elec",	"biofuel_cons_change_pct",	"biofuel_share_energy",	"biofuel_cons_change_twh",	"biofuel_consumption",	"biofuel_elec_per_capita",	"biofuel_cons_per_capita",	"carbon_intensity_elec",	"fossil_cons_change_pct",	"fossil_share_energy",	"fossil_cons_change_twh",	"fossil_fuel_consumption",	"fossil_energy_per_capita",	"fossil_cons_per_capita",	"fossil_share_elec",	"gas_share_elec",	"gas_cons_change_pct",	"gas_share_energy",	"gas_cons_change_twh",	"gas_consumption",	"gas_elec_per_capita",	"gas_energy_per_capita",	"gas_production",	"gas_prod_per_capita",	"hydro_share_elec",	"hydro_cons_change_pct",	"hydro_share_energy",	"hydro_cons_change_twh",	"hydro_consumption",	"hydro_elec_per_capita",	"hydro_energy_per_capita",	"low_carbon_share_elec",	"low_carbon_electricity",	"low_carbon_elec_per_capita",	"low_carbon_cons_change_pct",	"low_carbon_share_energy",	"low_carbon_cons_change_twh",	"low_carbon_consumption",	"low_carbon_energy_per_capita",	"net_elec_imports",	"net_elec_imports_share_demand",	"nuclear_share_elec",	"nuclear_cons_change_pct",	"nuclear_share_energy",	"nuclear_cons_change_twh",	"nuclear_consumption",	"nuclear_elec_per_capita",	"nuclear_energy_per_capita",	"oil_share_elec",	"oil_cons_change_pct",	"oil_share_energy",	"oil_cons_change_twh",	"oil_consumption",	"oil_elec_per_capita",	"oil_energy_per_capita",	"oil_production",	"oil_prod_per_capita",	"other_renewables_elec_per_capita",	"other_renewables_elec_per_capita_exc_biofuel",	"other_renewables_share_elec",	"other_renewables_share_elec_exc_biofuel",	"other_renewables_cons_change_pct",	"other_renewables_share_energy",	"other_renewables_cons_change_twh",	"other_renewable_consumption",	"other_renewables_energy_per_capita",	"solar_share_elec",	"solar_cons_change_pct",	"solar_share_energy",	"solar_cons_change_twh",	"solar_consumption",	"solar_elec_per_capita",	"solar_energy_per_capita",	"gdp",	"wind_share_elec",	"wind_cons_change_pct",	"wind_share_energy",	"wind_cons_change_twh",	"wind_consumption",	"wind_elec_per_capita",	"wind_energy_per_capita",	"coal_prod_change_pct",	"coal_prod_change_twh",	"gas_prod_change_pct",	"gas_prod_change_twh",	"oil_prod_change_pct",	"oil_prod_change_twh"))
 
+#bubble map funtion
     def country_bubble_map(input_var):
         df_co2_map_2=df_co2_map[['iso_code', 'country_x', input_var, 'continent']]
         df_co2_map_2.dropna(inplace=True)
@@ -144,7 +155,7 @@ if st.checkbox("Explore World Bubble Map of Emissions"):
     st.caption("China (30%), U.S (14%), and India (7%) represent the top 3 carbon emitters. Currently, the global South relies primarily on renewable electricity while the global North relies heavily on fossil fuels. While it is imperative that the major emitters change their actions swiftly, it is important to remember climate change is a global issue that no single country can solve.")
 
 
-
+#emissions by year options and functions
 """
 ##### Emmissions
 """
@@ -232,6 +243,7 @@ if st.checkbox("Explore emissions by year"):
     country_bar_graph(answer3, answer2, answer1)
     st.caption("Currently, global emmissions are around 35 million tonnes annually. We will need to get this number to around 14 million tonnes. In 2020 the U.S emitted roughly  equilivent to the continent of Africa and the entire EU combined.")
 
+#stacked bargraph by year
 elif st.checkbox("Explore Breakdowns of Aggregate Emissions by Year"):
     answer4 = st.selectbox(label="What country or region would you like to view?",
     options=('World', 'Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America',
@@ -309,6 +321,7 @@ elif st.checkbox("Explore Breakdowns of Aggregate Emissions by Year"):
     Aggregate_bar_graph(answer5, answer4)
     st.caption("Over 70% of Chinese emmissions come from coal. With a global shift towards natural gas it will be interesting to see how this number changes in the upcoming years. Ultimatley, it does not matter too much where emissions came from and the U.S and China will need to rely primarily on carbon neatural energy to avoid the worst of a climate catastrophe.")
 
+#stacked bar graph by year per capita
 elif st.checkbox("Explore Breakdowns of Per Capita Emissions by Year"):
     answer6 = st.selectbox(label="What country or region would you like to view?",
     options=('World', 'Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America',
@@ -387,7 +400,9 @@ elif st.checkbox("Explore Breakdowns of Per Capita Emissions by Year"):
 """
 ##### Energy
 """
-##############################################################################################################################################
+###############################################################################################################################################
+#energy use variable s
+######################################################################################################
 if st.checkbox("Explore energy categories by year"):
     answer8 = st.selectbox(label="What variable would you like to view?",
     options=("primary_energy_consumption",	"per_capita_electricity",	"energy_per_capita",	"energy_per_gdp",	"biofuel_electricity",	"coal_electricity",	"fossil_electricity", "renewables_electricity",	"gas_electricity",	"hydro_electricity",	"nuclear_electricity",	"oil_electricity",	"solar_electricity",	"wind_electricity", "other_renewable_electricity",	"other_renewable_exc_biofuel_electricity",	"electricity_demand",	"electricity_generation",	"renewables_energy_per_capita",	"renewables_elec_per_capita",	"renewables_share_elec",	"renewables_cons_change_pct",	"renewables_share_energy",	"renewables_cons_change_twh",	"renewables_consumption",	"energy_cons_change_pct",	"energy_cons_change_twh",	"coal_share_elec",	"coal_cons_change_pct",	"coal_share_energy",	"coal_cons_change_twh",	"coal_consumption",	"coal_elec_per_capita",	"coal_cons_per_capita",	"coal_production",	"coal_prod_per_capita",	"biofuel_share_elec",	"biofuel_cons_change_pct",	"biofuel_share_energy",	"biofuel_cons_change_twh",	"biofuel_consumption",	"biofuel_elec_per_capita",	"biofuel_cons_per_capita",	"carbon_intensity_elec",	"fossil_cons_change_pct",	"fossil_share_energy",	"fossil_cons_change_twh",	"fossil_fuel_consumption",	"fossil_energy_per_capita",	"fossil_cons_per_capita",	"fossil_share_elec",	"gas_share_elec",	"gas_cons_change_pct",	"gas_share_energy",	"gas_cons_change_twh",	"gas_consumption",	"gas_elec_per_capita",	"gas_energy_per_capita",	"gas_production",	"gas_prod_per_capita",	"hydro_share_elec",	"hydro_cons_change_pct",	"hydro_share_energy",	"hydro_cons_change_twh",	"hydro_consumption",	"hydro_elec_per_capita",	"hydro_energy_per_capita",	"low_carbon_share_elec",	"low_carbon_electricity",	"low_carbon_elec_per_capita",	"low_carbon_cons_change_pct",	"low_carbon_share_energy",	"low_carbon_cons_change_twh",	"low_carbon_consumption",	"low_carbon_energy_per_capita",	"net_elec_imports",	"net_elec_imports_share_demand",	"nuclear_share_elec",	"nuclear_cons_change_pct",	"nuclear_share_energy",	"nuclear_cons_change_twh",	"nuclear_consumption",	"nuclear_elec_per_capita",	"nuclear_energy_per_capita",	"oil_share_elec",	"oil_cons_change_pct",	"oil_share_energy",	"oil_cons_change_twh",	"oil_consumption",	"oil_elec_per_capita",	"oil_energy_per_capita",	"oil_production",	"oil_prod_per_capita",	"other_renewables_elec_per_capita",	"other_renewables_elec_per_capita_exc_biofuel",	"other_renewables_share_elec",	"other_renewables_share_elec_exc_biofuel",	"other_renewables_cons_change_pct",	"other_renewables_share_energy",	"other_renewables_cons_change_twh",	"other_renewable_consumption",	"other_renewables_energy_per_capita",	"solar_share_elec",	"solar_cons_change_pct",	"solar_share_energy",	"solar_cons_change_twh",	"solar_consumption",	"solar_elec_per_capita",	"solar_energy_per_capita",	"gdp",	"wind_share_elec",	"wind_cons_change_pct",	"wind_share_energy",	"wind_cons_change_twh",	"wind_consumption",	"wind_elec_per_capita",	"wind_energy_per_capita",	"coal_prod_change_pct",	"coal_prod_change_twh",	"gas_prod_change_pct",	"gas_prod_change_twh",	"oil_prod_change_pct",	"oil_prod_change_twh"))
@@ -468,7 +483,9 @@ if st.checkbox("Explore energy categories by year"):
 
     country_bar_graph2(answer10, answer9, answer8)
     st.caption("While usage increases in renewables far outpace fossil fuels, only approximately 14% of global energy consumption is renewable. Scientists say we need to move this number to 60% or higher. We have the technical capacity to do this, but it does not look like we have the politcal will.")
-
+##########################
+#stacked energy use by year
+################################
 elif st.checkbox("Explore Breakdowns of Aggregate Energy Use by Year"):
     answer11 = st.selectbox(label="What country or region would you like to view?",
     options=('World', 'Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America',
@@ -546,6 +563,9 @@ elif st.checkbox("Explore Breakdowns of Aggregate Energy Use by Year"):
     Aggregate_bar_graph2(answer12, answer11)
     st.caption("According to the Center of American Progress, there are currently 139 climate change deniers across the two branches of Congress. Collectively, these individuals have received 61 million dollars in lifetime contributions from the fossil fuel industry (2021). The general public also remains divided. While 64 percent of Americans believe Congress should make environmental protection a top priority, only 39 percent of Republicans believe the federal government is doing too little to address climate change. This number is in stark contrast to the 90 percent of Democrats who believe the federal government's climate action has been inadequate (PEW, 2019, 2021).")
 
+##########################
+#stacked energy use by year
+################################
 elif st.checkbox("Explore Breakdowns of Per Capita Energy Use by Year"):
     answer13 = st.selectbox(label="What country or region would you like to view?",
     options=('World', 'Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America',
@@ -623,6 +643,10 @@ elif st.checkbox("Explore Breakdowns of Per Capita Energy Use by Year"):
 
     per_capita_bar_graph2(answer14, answer13)
 
+##########################
+#energy shares over the years
+################################
+
 elif st.checkbox("Explore Breakdowns of Share Energy Use by Year"):
     answer15 = st.selectbox(label="What country or region would you like to view?",
     options=('World', 'Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America',
@@ -699,7 +723,9 @@ elif st.checkbox("Explore Breakdowns of Share Energy Use by Year"):
 
     share_bar_graph(answer16, answer15)
     st.caption("Despite all the hype wind and solar combined to make up less than 4% of total energy consumption in 2020. The U.S has an abundance of potential for wind and solar but there are direct for many politicians against this transistion. For example, Democratic Senator Joe Manchin of West Virginia is a determining vote given the Democrats narrow majority in the Senate. The primary industry of West Virginia is coal, and Manchin collected 400 thousand dollars in fossil fuel donations in recent months. On top of that, he made approximately $500 thousand last year due to his ownership of a coal brokerage fund he founded (CNN, 2021). It is clear that Manchin has a direct financial incentive to keep the fossil fuel industry prosperous. Earlier this year, he had key climate provisions removed from the infrastructure bill, including a 150 billion dollar clean energy incentive.")
-
+##########################
+#energy time shares of the years
+################################
 
 elif st.checkbox("Explore breakdown of Energy Trends over the Years"):
     answer17 = st.selectbox(label="What variable would you like to view?",
@@ -780,6 +806,10 @@ elif st.checkbox("Explore breakdown of Energy Trends over the Years"):
 
     line_graph2(answer19, answer18, answer17)
     st.caption("It is misleading to put too much stock in 2020 changes, given the exogenous shock covid provided in the energy markets.")
+
+##########################
+#data documentation
+################################
 
 """
 ##### Data Documentation
